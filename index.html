@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>عالم الاختراعات - القلم الجاف</title>
+<!--
+  ╔══════════════════════════════════════════════════════════════════╗
+  ║         عالم الاختراعات | World of Inventions                   ║
+  ║         © 2026 سميرة عبد الصادق | رنيم فاي                     ║
+  ║         مشروع التعليم الممتع | Fun Learning Project             ║
+  ║         جميع الحقوق محفوظة - ONDA Algeria                      ║
+  ║         تم تطوير هذا التطبيق بمساعدة أدوات الذكاء الاصطناعي    ║
+  ║         والإشراف الكامل والمحتوى التعليمي من إعداد المؤلفة      ║
+  ╚══════════════════════════════════════════════════════════════════╝
+-->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
+
+  :root {
+    --gold:    #F5C518;
+    --ink:     #1A1A2E;
+    --paper:   #FFF8E7;
+    --blue:    #2563EB;
+    --teal:    #0D9488;
+    --orange:  #EA580C;
+    --green:   #16A34A;
+    --pink:    #DB2777;
+    --light:   #F0F9FF;
+    --shadow:  rgba(0,0,0,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    background: linear-gradient(135deg, var(--gold) 0%, #FBBF24 100%);
+    padding: 20px 16px 16px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '🖊️';
+    position: absolute;
+    font-size: 120px;
+    opacity: 0.08;
+    top: -20px;
+    left: -20px;
+    transform: rotate(-20deg);
+  }
+  header h1 {
+    font-size: clamp(22px, 6vw, 36px);
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  header .subtitle {
+    font-size: clamp(13px, 3.5vw, 18px);
+    color: #4A3200;
+    margin-top: 4px;
+  }
+
+  /* ===== NAV TABS ===== */
+  .tabs {
+    display: flex;
+    overflow-x: auto;
+    background: var(--ink);
+    gap: 2px;
+    padding: 6px 8px;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex: 0 0 auto;
+    background: transparent;
+    border: 2px solid transparent;
+    color: #aaa;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 8px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.25s;
+  }
+  .tab-btn.active {
+    background: var(--gold);
+    color: var(--ink);
+    border-color: var(--gold);
+  }
+  .tab-btn:hover:not(.active) {
+    color: white;
+    border-color: #555;
+  }
+
+  /* ===== SECTIONS ===== */
+  .section { display: none; padding: 16px; animation: fadeIn 0.35s ease; }
+  .section.active { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: none; } }
+
+  /* ===== CARDS ===== */
+  .card {
+    background: white;
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 12px var(--shadow);
+    border-right: 5px solid var(--gold);
+  }
+  .card h2 {
+    font-size: 18px;
+    font-weight: 900;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card p, .card li {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #333;
+  }
+  .card ul { padding-right: 20px; margin-top: 8px; }
+  .card li { margin-bottom: 6px; }
+
+  /* ===== STORY TIMELINE ===== */
+  .timeline { position: relative; padding-right: 30px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    right: 10px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--gold), var(--blue));
+    border-radius: 3px;
+  }
+  .t-item {
+    position: relative;
+    margin-bottom: 20px;
+    background: white;
+    border-radius: 14px;
+    padding: 14px 16px;
+    box-shadow: 0 2px 10px var(--shadow);
+  }
+  .t-dot {
+    position: absolute;
+    right: -35px;
+    top: 16px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 3px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 900;
+    color: var(--ink);
+    box-shadow: 0 0 0 3px var(--gold);
+  }
+  .t-year {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--blue);
+    display: block;
+  }
+  .t-text {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #444;
+    margin-top: 4px;
+  }
+
+  /* ===== INVENTOR CARD ===== */
+  .inventor-box {
+    background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 12px var(--shadow);
+  }
+  .inventor-avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), var(--teal));
+    margin: 0 auto 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    box-shadow: 0 4px 16px rgba(37,99,235,0.3);
+  }
+  .inventor-name {
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--ink);
+  }
+  .inventor-meta {
+    font-size: 13px;
+    color: #555;
+    margin-top: 4px;
+  }
+  .flag-tag {
+    display: inline-block;
+    background: var(--blue);
+    color: white;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-top: 10px;
+  }
+
+  /* ===== PARTS DIAGRAM ===== */
+  .parts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .part-item {
+    background: white;
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 0 2px 8px var(--shadow);
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .part-item.selected {
+    border-color: var(--blue);
+    background: #EFF6FF;
+  }
+  .part-icon { font-size: 28px; margin-bottom: 4px; }
+  .part-name { font-size: 13px; font-weight: 700; color: var(--ink); }
+  .part-desc {
+    display: none;
+    background: #EFF6FF;
+    border-right: 3px solid var(--blue);
+    border-radius: 10px;
+    padding: 12px;
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #1e3a8a;
+  }
+  .part-desc.show { display: block; animation: fadeIn 0.3s ease; }
+
+  /* ===== BEFORE/AFTER ===== */
+  .compare-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .before-box {
+    background: #FEF2F2;
+    border-radius: 12px;
+    padding: 14px;
+    border-top: 4px solid #EF4444;
+    text-align: center;
+  }
+  .after-box {
+    background: #F0FDF4;
+    border-radius: 12px;
+    padding: 14px;
+    border-top: 4px solid var(--green);
+    text-align: center;
+  }
+  .compare-title {
+    font-size: 13px;
+    font-weight: 900;
+    margin-bottom: 8px;
+  }
+  .compare-emoji { font-size: 36px; margin-bottom: 6px; display: block; }
+  .compare-text { font-size: 12px; line-height: 1.6; color: #555; }
+
+  /* ===== FUN FACTS ===== */
+  .fact-card {
+    background: linear-gradient(135deg, #FFF7ED, #FED7AA);
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    box-shadow: 0 2px 8px var(--shadow);
+  }
+  .fact-icon { font-size: 28px; flex-shrink: 0; }
+  .fact-text { font-size: 14px; line-height: 1.7; color: #333; }
+
+  /* ===== QUIZ ===== */
+  #quiz-section { background: var(--light); }
+  .quiz-progress {
+    background: #e0e0e0;
+    height: 8px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .quiz-progress-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--teal), var(--blue));
+    border-radius: 10px;
+    transition: width 0.4s ease;
+  }
+  .question-box {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 2px 12px var(--shadow);
+    margin-bottom: 14px;
+  }
+  .q-num { font-size: 12px; color: var(--teal); font-weight: 700; margin-bottom: 8px; }
+  .q-text { font-size: 16px; font-weight: 700; color: var(--ink); line-height: 1.6; margin-bottom: 16px; }
+  .answers { display: flex; flex-direction: column; gap: 10px; }
+  .ans-btn {
+    background: #F8FAFC;
+    border: 2px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    cursor: pointer;
+    text-align: right;
+    transition: all 0.2s;
+  }
+  .ans-btn:hover:not(:disabled) {
+    background: #EFF6FF;
+    border-color: var(--blue);
+  }
+  .ans-btn.correct { background: #F0FDF4; border-color: var(--green); color: var(--green); }
+  .ans-btn.wrong   { background: #FEF2F2; border-color: #EF4444;     color: #EF4444;     }
+  .feedback {
+    text-align: center;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    margin-top: 10px;
+    display: none;
+  }
+  .feedback.show { display: block; animation: fadeIn 0.3s; }
+  .feedback.ok  { background: #F0FDF4; color: var(--green); }
+  .feedback.nok { background: #FEF2F2; color: #EF4444; }
+
+  .next-btn {
+    width: 100%;
+    background: var(--blue);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 14px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 16px;
+    font-weight: 900;
+    cursor: pointer;
+    margin-top: 12px;
+    display: none;
+    transition: transform 0.15s;
+  }
+  .next-btn:active { transform: scale(0.97); }
+  .next-btn.show { display: block; }
+
+  /* ===== RESULT ===== */
+  .result-box {
+    text-align: center;
+    padding: 30px 20px;
+    display: none;
+  }
+  .result-box.show { display: block; animation: fadeIn 0.5s; }
+  .result-emoji { font-size: 72px; margin-bottom: 12px; display: block; }
+  .result-score { font-size: 42px; font-weight: 900; color: var(--blue); }
+  .result-label { font-size: 18px; color: #555; margin-top: 6px; }
+  .result-msg { font-size: 15px; color: #444; margin: 12px 0 20px; line-height: 1.7; }
+  .retry-btn {
+    background: var(--gold);
+    border: none;
+    border-radius: 12px;
+    padding: 14px 30px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 16px;
+    font-weight: 900;
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  /* ===== TTS ===== */
+  .tts-bar {
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: white;
+    border-radius: 30px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    z-index: 100;
+    font-size: 13px;
+    font-weight: 700;
+    max-width: 90vw;
+  }
+  .tts-btn {
+    background: var(--gold);
+    border: none;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .tts-stop {
+    background: #EF4444;
+    border: none;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+  }
+
+  footer {
+    text-align: center;
+    padding: 60px 16px 20px;
+    font-size: 11px;
+    color: #999;
+    line-height: 1.8;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🌟 عالم الاختراعات 🌟</h1>
+  <div class="subtitle">القلم الجاف — كيف وُلدت أداة الكتابة الأشهر في العالم؟</div>
+</header>
+
+<nav class="tabs">
+  <button class="tab-btn active" onclick="showTab('story')">📖 القصة</button>
+  <button class="tab-btn" onclick="showTab('inventor')">👨‍🔬 المخترع</button>
+  <button class="tab-btn" onclick="showTab('parts')">🔩 المكونات</button>
+  <button class="tab-btn" onclick="showTab('compare')">⏳ قبل وبعد</button>
+  <button class="tab-btn" onclick="showTab('facts')">💡 هل تعلم؟</button>
+  <button class="tab-btn" onclick="showTab('quiz')">🧠 اختبر نفسك</button>
+</nav>
+
+<!-- ===== STORY ===== -->
+<div id="story" class="section active">
+  <div class="card">
+    <h2>📖 حكاية القلم الجاف</h2>
+    <p>كان الناس قديماً يكتبون بالأقلام الريشية المغموسة في الحبر السائل. كانت مزعجة جداً! الحبر يسيل، ويتلطخ كل شيء، ويجب أن تغمس القلم كل بضع كلمات...</p>
+    <p style="margin-top:10px;">تخيّل أنك تكتب واجبك المدرسي وفجأة — <strong>تتسع قطرة حبر كبيرة على ورقتك!</strong> 😩</p>
+    <p style="margin-top:10px;">لكن رجلاً ذكياً قرر أن يغيّر ذلك للأبد...</p>
+  </div>
+
+  <div class="timeline">
+    <div class="t-item">
+      <div class="t-dot">1</div>
+      <span class="t-year">1888م</span>
+      <div class="t-text">🇺🇸 أول محاولة! المخترع الأمريكي <strong>جون لاود</strong> حاول اختراع قلم بكرة دوارة، لكنه لم ينجح تماماً — كان الحبر يسيل كثيراً.</div>
+    </div>
+    <div class="t-item">
+      <div class="t-dot">2</div>
+      <span class="t-year">1931م</span>
+      <div class="t-text">📰 الصحفي المجري <strong>لازلو بيرو</strong> يلاحظ أن الحبر الذي تستخدمه المطبعة يجف بسرعة ولا يتلطخ. تبدأ في رأسه فكرة عبقرية...</div>
+    </div>
+    <div class="t-item">
+      <div class="t-dot">3</div>
+      <span class="t-year">1938م</span>
+      <div class="t-text">🇭🇺 بعد سنوات من المحاولات مع أخيه <strong>غيورغي</strong> الكيميائي، يحصل لازلو على <strong>براءة الاختراع</strong> في المجر! الحل كان: كرة صغيرة من الفولاذ تدور وتنقل الحبر اللزج.</div>
+    </div>
+    <div class="t-item">
+      <div class="t-dot">4</div>
+      <span class="t-year">1945م</span>
+      <div class="t-text">✈️ خلال الحرب العالمية الثانية، اشترى الجيش البريطاني آلاف الأقلام الجافة للطيارين — لأن الحبر السائل كان يتسرب في الطائرات بسبب الارتفاع!</div>
+    </div>
+    <div class="t-item">
+      <div class="t-dot">5</div>
+      <span class="t-year">اليوم 🌍</span>
+      <div class="t-text">ينتج العالم أكثر من <strong>14 مليار قلم جاف</strong> كل سنة! وكل واحد منها يحتوي على نفس فكرة لازلو بيرو البسيطة والعبقرية.</div>
+    </div>
+  </div>
+
+  <button class="tts-btn" style="width:100%;padding:14px;border-radius:14px;font-size:15px;background:var(--teal);color:white;border:none;cursor:pointer;font-family:Tajawal,sans-serif;font-weight:900;margin-top:4px;" onclick="readStory()">🔊 اسمع القصة</button>
+</div>
+
+<!-- ===== INVENTOR ===== -->
+<div id="inventor" class="section">
+  <div class="inventor-box">
+    <div class="inventor-avatar">👨‍💼</div>
+    <div class="inventor-name">لازلو يوسف بيرو</div>
+    <div class="inventor-meta">László József Bíró</div>
+    <span class="flag-tag">🇭🇺 المجر</span>
+  </div>
+
+  <div class="card" style="border-color:var(--blue)">
+    <h2>🗓️ معلومات عنه</h2>
+    <ul>
+      <li>📅 وُلد في <strong>29 سبتمبر 1899م</strong> في مدينة بودابست، المجر</li>
+      <li>💼 كان يعمل <strong>صحفياً</strong> — يكتب كثيراً ويعاني من مشكلة الحبر السائل</li>
+      <li>🧪 أخوه <strong>غيورغي</strong> كيميائي، ساعده في تطوير الحبر اللزج المناسب</li>
+      <li>🌍 هرب من الحرب إلى <strong>الأرجنتين</strong> ونجح قلمه هناك</li>
+      <li>💰 باع براءة اختراعه لاحقاً لشركة <strong>BIC</strong> الفرنسية</li>
+      <li>🏆 توفي عام <strong>1985م</strong> وتُحتفل بذكرى ميلاده كيوم عالمي للمخترع!</li>
+    </ul>
+  </div>
+
+  <div class="card" style="border-color:var(--green)">
+    <h2>💭 كيف جاءته الفكرة؟</h2>
+    <p>ذات يوم في العمل، رأى لازلو ورقة مطبوعة بالمطبعة — الحبر جاف تماماً ولا يتلطخ! قال لنفسه:</p>
+    <p style="margin-top:10px; background:#F0FDF4; padding:12px; border-radius:10px; font-weight:700; color:var(--green); font-size:16px; text-align:center;">
+      "لماذا لا أستخدم هذا الحبر في قلم؟!"
+    </p>
+    <p style="margin-top:10px;">المشكلة كانت: الحبر اللزج لا يتدفق بمفرده. الحل الذكي: <strong>كرة دوارة صغيرة جداً</strong> تلتقط الحبر وتنقله إلى الورق بالضغط!</p>
+  </div>
+</div>
+
+<!-- ===== PARTS ===== -->
+<div id="parts" class="section">
+  <div class="card">
+    <h2>🔩 أجزاء القلم الجاف</h2>
+    <p>اضغط على كل جزء لتعرف وظيفته! 👇</p>
+  </div>
+
+  <!-- SVG pen diagram -->
+  <div style="background:white;border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 2px 12px var(--shadow);text-align:center;">
+    <svg viewBox="0 0 240 80" width="100%" style="max-width:320px;">
+      <!-- body -->
+      <rect x="30" y="28" width="160" height="22" rx="11" fill="#4A90D9" stroke="#1A5FA8" stroke-width="1.5"/>
+      <!-- cap -->
+      <rect x="190" y="30" width="35" height="18" rx="9" fill="#888" stroke="#555" stroke-width="1.5"/>
+      <!-- tip housing -->
+      <polygon points="30,39 8,39 14,32 30,32" fill="#777" stroke="#444" stroke-width="1"/>
+      <!-- ball tip -->
+      <circle cx="8" cy="39" r="3.5" fill="#333" stroke="#111" stroke-width="1"/>
+      <!-- ink tube -->
+      <rect x="35" y="34" width="145" height="10" rx="5" fill="#A8D4F5" stroke="#6BAED6" stroke-width="1"/>
+      <!-- ink fill -->
+      <rect x="36" y="35" width="100" height="8" rx="4" fill="#2563EB" opacity="0.7"/>
+      <!-- labels -->
+      <text x="120" y="22" text-anchor="middle" font-family="Tajawal,sans-serif" font-size="6" fill="#1A1A2E">خزان الحبر</text>
+      <line x1="100" y1="24" x2="100" y2="34" stroke="#999" stroke-width="0.8" stroke-dasharray="2"/>
+      <text x="12" y="55" text-anchor="middle" font-family="Tajawal,sans-serif" font-size="5.5" fill="#1A1A2E">طرف الكتابة</text>
+      <text x="205" y="55" text-anchor="middle" font-family="Tajawal,sans-serif" font-size="5.5" fill="#1A1A2E">الغطاء</text>
+    </svg>
+  </div>
+
+  <div class="parts-grid">
+    <div class="part-item" onclick="togglePart(this,'ball')">
+      <div class="part-icon">⚽</div>
+      <div class="part-name">الكرة الدوارة</div>
+    </div>
+    <div class="part-item" onclick="togglePart(this,'tank')">
+      <div class="part-icon">🫙</div>
+      <div class="part-name">خزان الحبر</div>
+    </div>
+    <div class="part-item" onclick="togglePart(this,'tip')">
+      <div class="part-icon">📍</div>
+      <div class="part-name">طرف الكتابة</div>
+    </div>
+    <div class="part-item" onclick="togglePart(this,'body')">
+      <div class="part-icon">📏</div>
+      <div class="part-name">جسم القلم</div>
+    </div>
+    <div class="part-item" onclick="togglePart(this,'cap')">
+      <div class="part-icon">🧢</div>
+      <div class="part-name">الغطاء</div>
+    </div>
+    <div class="part-item" onclick="togglePart(this,'channel')">
+      <div class="part-icon">🌊</div>
+      <div class="part-name">قناة الحبر</div>
+    </div>
+  </div>
+
+  <div id="part-desc" class="part-desc"></div>
+</div>
+
+<!-- ===== COMPARE ===== -->
+<div id="compare" class="section">
+  <div class="card">
+    <h2>⏳ الحياة قبل وبعد القلم الجاف</h2>
+  </div>
+
+  <div class="compare-box">
+    <div class="before-box">
+      <span class="compare-emoji">🪶</span>
+      <div class="compare-title" style="color:#EF4444;">❌ قبل الاختراع</div>
+      <div class="compare-text">القلم الريشي — يجب غمسه في الحبر كل بضع كلمات</div>
+    </div>
+    <div class="after-box">
+      <span class="compare-emoji">🖊️</span>
+      <div class="compare-title" style="color:var(--green);">✅ بعد الاختراع</div>
+      <div class="compare-text">القلم الجاف — يكتب بسهولة دون توقف أو تلطخ!</div>
+    </div>
+  </div>
+
+  <div style="height:10px;"></div>
+
+  <div class="compare-box">
+    <div class="before-box">
+      <span class="compare-emoji">😩</span>
+      <div class="compare-title" style="color:#EF4444;">❌ المشكلة</div>
+      <div class="compare-text">الحبر يتلطخ ويُعطّل الكتابة، خاصة في الطائرات</div>
+    </div>
+    <div class="after-box">
+      <span class="compare-emoji">😊</span>
+      <div class="compare-title" style="color:var(--green);">✅ الحل</div>
+      <div class="compare-text">حبر لزج وكرة دوارة = كتابة نظيفة في أي مكان وأي وضعية!</div>
+    </div>
+  </div>
+
+  <div style="height:10px;"></div>
+
+  <div class="compare-box">
+    <div class="before-box">
+      <span class="compare-emoji">💰</span>
+      <div class="compare-title" style="color:#EF4444;">❌ التكلفة قديماً</div>
+      <div class="compare-text">الأقلام كانت غالية الثمن ولا تدوم طويلاً</div>
+    </div>
+    <div class="after-box">
+      <span class="compare-emoji">🎉</span>
+      <div class="compare-title" style="color:var(--green);">✅ اليوم</div>
+      <div class="compare-text">القلم الجاف رخيص جداً ومتوفر للجميع في كل أنحاء العالم!</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FACTS ===== -->
+<div id="facts" class="section">
+  <div class="card">
+    <h2>💡 هل تعلم؟</h2>
+    <p>معلومات مذهلة عن القلم الجاف قد تفاجئك! 🤩</p>
+  </div>
+
+  <div class="fact-card">
+    <div class="fact-icon">🌍</div>
+    <div class="fact-text">ينتج العالم <strong>14 مليار قلم جاف</strong> كل سنة — يكفي لإعطاء كل إنسان على الأرض قلمين!</div>
+  </div>
+  <div class="fact-card">
+    <div class="fact-icon">⚽</div>
+    <div class="fact-text">الكرة الدوارة في طرف القلم <strong>أصغر من 1 ملم</strong> وهي مصنوعة من مادة <strong>كربيد التنغستن</strong> — أقوى من الحديد!</div>
+  </div>
+  <div class="fact-card">
+    <div class="fact-icon">✍️</div>
+    <div class="fact-text">قلم واحد يمكنه رسم خط طوله <strong>3 كيلومترات</strong> أو كتابة حوالي <strong>50,000 كلمة</strong>!</div>
+  </div>
+  <div class="fact-card">
+    <div class="fact-icon">🇦🇷</div>
+    <div class="fact-text">في الأرجنتين، يسمّون القلم الجاف <strong>"بيرو"</strong> تكريماً للمخترع لازلو بيرو الذي عاش وعمل هناك!</div>
+  </div>
+  <div class="fact-card">
+    <div class="fact-icon">🚀</div>
+    <div class="fact-text">رواد الفضاء يستخدمون قلماً خاصاً يكتب حتى في انعدام الجاذبية! وحتى اليوم القلم العادي لا يعمل في الفضاء.</div>
+  </div>
+  <div class="fact-card">
+    <div class="fact-icon">🔵</div>
+    <div class="fact-text">الحبر الأزرق هو الأكثر استخداماً في العالم لأنه أسهل للعين في القراءة من الأسود على الورق الأبيض.</div>
+  </div>
+</div>
+
+<!-- ===== QUIZ ===== -->
+<div id="quiz" class="section" id="quiz-section">
+  <div class="card">
+    <h2>🧠 اختبر معلوماتك!</h2>
+    <p>6 أسئلة عن القلم الجاف — هل أنت جاهز؟ 💪</p>
+  </div>
+
+  <div class="quiz-progress"><div class="quiz-progress-fill" id="qprogress" style="width:0%"></div></div>
+
+  <div id="quiz-body">
+    <div class="question-box">
+      <div class="q-num" id="qnum">السؤال 1 من 6</div>
+      <div class="q-text" id="qtext">...</div>
+      <div class="answers" id="qanswers"></div>
+      <div class="feedback" id="qfeedback"></div>
+      <button class="next-btn" id="qnext" onclick="nextQuestion()">السؤال التالي ←</button>
+    </div>
+  </div>
+
+  <div class="result-box" id="result-box">
+    <span class="result-emoji" id="res-emoji">🏆</span>
+    <div class="result-score" id="res-score">0/6</div>
+    <div class="result-label" id="res-label">أحسنت!</div>
+    <div class="result-msg" id="res-msg"></div>
+    <button class="retry-btn" onclick="startQuiz()">🔄 حاول مرة أخرى</button>
+  </div>
+</div>
+
+<footer>
+  © 2026 سميرة عبد الصادق | رنيم فاي — مشروع التعليم الممتع<br>
+  جميع الحقوق محفوظة | ONDA Algeria<br>
+  تم تطوير هذا التطبيق بمساعدة أدوات الذكاء الاصطناعي والإشراف الكامل من المؤلفة
+</footer>
+
+<script>
+// ===== TABS =====
+function showTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.currentTarget.classList.add('active');
+  if (id === 'quiz') startQuiz();
+}
+
+// ===== PARTS =====
+const partData = {
+  ball: { name: '⚽ الكرة الدوارة', desc: 'كرة صغيرة جداً (أقل من 1 ملم!) مصنوعة من كربيد التنغستن. تدور عند الكتابة فتلتقط الحبر من الخزان وتنقله إلى الورق. هي سر عمل القلم الجاف!' },
+  tank: { name: '🫙 خزان الحبر', desc: 'أنبوب رفيع داخل القلم مليء بالحبر اللزج. الحبر اللزج (مثل معجون الأسنان) لا يسيل بمفرده — ينتظر حتى تضغط الكرة عليه.' },
+  tip: { name: '📍 طرف الكتابة', desc: 'الجزء الذي يلامس الورق. يحتوي على الكرة الدوارة في مقعدها الدقيق. مصنوع من الفولاذ أو النحاس.' },
+  body: { name: '📏 جسم القلم', desc: 'الغلاف الخارجي الذي يحمي كل المكونات الداخلية. قد يكون من البلاستيك أو المعدن. يُريح يدك أثناء الكتابة.' },
+  cap: { name: '🧢 الغطاء', desc: 'يحمي طرف الكتابة عندما لا تستخدم القلم، ويمنع الحبر من الجفاف. ثقب صغير في الغطاء يمنع الاختناق إذا ابتلعه طفل خطأً!' },
+  channel: { name: '🌊 قناة الحبر', desc: 'مسار رفيع جداً يسمح للهواء بالدخول إلى الخزان كلما خرج منه حبر. بدونها، سيتوقف الحبر عن التدفق بسبب فراغ الهواء.' }
+};
+
+function togglePart(el, key) {
+  const desc = document.getElementById('part-desc');
+  const wasSelected = el.classList.contains('selected');
+  document.querySelectorAll('.part-item').forEach(p => p.classList.remove('selected'));
+  if (wasSelected) { desc.classList.remove('show'); return; }
+  el.classList.add('selected');
+  desc.innerHTML = `<strong>${partData[key].name}</strong><br><br>${partData[key].desc}`;
+  desc.classList.add('show');
+  speak(partData[key].desc);
+}
+
+// ===== QUIZ =====
+const questions = [
+  { q: 'من هو مخترع القلم الجاف؟', answers: ['لازلو بيرو', 'توماس إديسون', 'جون لاود', 'إسحاق نيوتن'], correct: 0 },
+  { q: 'من أي دولة كان لازلو بيرو؟', answers: ['فرنسا', 'ألمانيا', 'المجر', 'أمريكا'], correct: 2 },
+  { q: 'ما هي المادة التي صُنعت منها الكرة الدوارة في طرف القلم؟', answers: ['الذهب', 'كربيد التنغستن', 'الزجاج', 'البلاستيك'], correct: 1 },
+  { q: 'ما الذي ألهم لازلو بيرو لاختراع القلم الجاف؟', answers: ['حبر الطين', 'حبر المطبعة الجافة السريعة', 'ماء البحر', 'ألوان الرسم'], correct: 1 },
+  { q: 'كم خطاً بالكيلومتر يمكن لقلم واحد رسمه؟', answers: ['كيلومتر واحد', '10 كيلومترات', '3 كيلومترات', '100 كيلومتر'], correct: 2 },
+  { q: 'متى حصل لازلو بيرو على براءة الاختراع؟', answers: ['1920م', '1938م', '1955م', '1945م'], correct: 1 }
+];
+
+let current = 0, score = 0, answered = false;
+
+function startQuiz() {
+  current = 0; score = 0;
+  document.getElementById('quiz-body').style.display = 'block';
+  document.getElementById('result-box').classList.remove('show');
+  showQuestion();
+}
+
+function showQuestion() {
+  answered = false;
+  const q = questions[current];
+  document.getElementById('qnum').textContent = `السؤال ${current+1} من ${questions.length}`;
+  document.getElementById('qtext').textContent = q.q;
+  document.getElementById('qprogress').style.width = `${(current/questions.length)*100}%`;
+  document.getElementById('qfeedback').classList.remove('show','ok','nok');
+  document.getElementById('qnext').classList.remove('show');
+
+  const container = document.getElementById('qanswers');
+  container.innerHTML = '';
+  q.answers.forEach((a, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'ans-btn';
+    btn.textContent = a;
+    btn.onclick = () => checkAnswer(i, btn);
+    container.appendChild(btn);
+  });
+  speak(q.q);
+}
+
+function checkAnswer(idx, btn) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const fb = document.getElementById('qfeedback');
+  const buttons = document.querySelectorAll('.ans-btn');
+  buttons.forEach(b => b.disabled = true);
+  buttons[q.correct].classList.add('correct');
+
+  if (idx === q.correct) {
+    score++;
+    btn.classList.add('correct');
+    fb.textContent = '🎉 أحسنت! إجابة صحيحة!';
+    fb.className = 'feedback show ok';
+    speak('أحسنت! إجابة صحيحة!');
+  } else {
+    btn.classList.add('wrong');
+    fb.textContent = `❌ الإجابة الصحيحة هي: ${q.answers[q.correct]}`;
+    fb.className = 'feedback show nok';
+    speak('للأسف! ' + q.answers[q.correct] + ' هي الإجابة الصحيحة');
+  }
+  document.getElementById('qnext').classList.add('show');
+  if (current === questions.length - 1) {
+    document.getElementById('qnext').textContent = 'انظر النتيجة 🏆';
+  }
+}
+
+function nextQuestion() {
+  current++;
+  if (current >= questions.length) {
+    showResult();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResult() {
+  document.getElementById('quiz-body').style.display = 'none';
+  document.getElementById('qprogress').style.width = '100%';
+  const rb = document.getElementById('result-box');
+  rb.classList.add('show');
+
+  const pct = score / questions.length;
+  let emoji, label, msg;
+  if (pct === 1)      { emoji='🏆'; label='ممتاز! أنت نجم المخترعين!'; msg='حصلت على العلامة الكاملة! أنت عالم مستقبلي بامتياز 🌟'; }
+  else if (pct >= .67){ emoji='😊'; label='أحسنت! نتيجة جيدة جداً!'; msg='لديك معلومات رائعة! راجع الدروس مرة أخرى لتصل للكمال 💪'; }
+  else if (pct >= .5) { emoji='🤔'; label='جيد! يمكنك التحسن!'; msg='نصف الإجابات صحيحة — اقرأ القصة مرة أخرى وستحسن! 📖'; }
+  else                { emoji='😅'; label='حاول مرة أخرى!'; msg='لا تيأس! قرأ القصة والمعلومات مجدداً ثم عد للاختبار 🔄'; }
+
+  document.getElementById('res-emoji').textContent = emoji;
+  document.getElementById('res-score').textContent = `${score}/${questions.length}`;
+  document.getElementById('res-label').textContent = label;
+  document.getElementById('res-msg').textContent = msg;
+  speak(label + ' ' + msg);
+}
+
+// ===== TTS — ElevenLabs + Web Speech Fallback =====
+const VOICE_ID = 'pqHfZKP75CvOlQylNhV4'; // عبد الله
+let currentAudio = null;
+let elevenLabsFailed = false; // إذا فشل مرة نتجنبه مؤقتاً
+
+function stopAudio() {
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+}
+
+async function speak(text) {
+  if (!text) return;
+  stopAudio();
+
+  // حاول ElevenLabs أولاً إذا لم يفشل سابقاً
+  if (!elevenLabsFailed) {
+    try {
+      const res = await fetch('/api/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text, voice_id: VOICE_ID }),
+        signal: AbortSignal.timeout(8000) // 8 ثواني حد أقصى
+      });
+
+      if (res.ok) {
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        currentAudio = new Audio(url);
+        currentAudio.onended = () => URL.revokeObjectURL(url);
+        await currentAudio.play();
+        return; // نجح ElevenLabs ✅
+      }
+    } catch (e) {
+      // فشل الاتصال — نسجّل ونرجع للبديل
+      elevenLabsFailed = true;
+      setTimeout(() => elevenLabsFailed = false, 60000); // نعيد المحاولة بعد دقيقة
+    }
+  }
+
+  // البديل: Web Speech API
+  fallbackSpeak(text);
+}
+
+function fallbackSpeak(text) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'ar-SA'; u.rate = 0.85; u.pitch = 1;
+  setTimeout(() => window.speechSynthesis.speak(u), 100);
+}
+
+function readStory() {
+  const text = `حكاية القلم الجاف. كان الناس قديماً يكتبون بالأقلام الريشية المغموسة في الحبر السائل. كانت مزعجة جداً! الحبر يسيل ويتلطخ كل شيء. لكن في عام ألف وتسعمئة وثمانية وثلاثين، اخترع الصحفي المجري لازلو بيرو القلم الجاف باستخدام كرة صغيرة دوارة وحبر لزج. وهكذا تغيّرت الكتابة إلى الأبد!`;
+  speak(text);
+}
+
+startQuiz();
+</script>
+</body>
+</html>

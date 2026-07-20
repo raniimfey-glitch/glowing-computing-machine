@@ -855,26 +855,34 @@ function stopAudio() {
 async function speak(text) {
   if (!text) return;
   stopAudio();
-  try {
-    const res = await fetch('/api/tts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text, voice_id: VOICE_ID }),
-      signal: AbortSignal.timeout(8000)
-    });
-    if (res.ok) {
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      currentAudio = new Audio(url);
-      currentAudio.onended = () => URL.revokeObjectURL(url);
-      await currentAudio.play();
-    } else {
-      const err = await res.text();
-      alert('خطأ ElevenLabs: ' + err);
+
+  // حاول ElevenLabs أولاً إذا لم يفشل سابقاً
+  if (!elevenLabsFailed) {
+    try {
+      const res = await fetch('/api/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text, voice_id: VOICE_ID }),
+        signal: AbortSignal.timeout(8000) // 8 ثواني حد أقصى
+      });
+
+      if (res.ok) {
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        currentAudio = new Audio(url);
+        currentAudio.onended = () => URL.revokeObjectURL(url);
+        await currentAudio.play();
+        return; // نجح ElevenLabs ✅
+      }
+    } catch (e) {
+      // فشل الاتصال — نسجّل ونرجع للبديل
+      elevenLabsFailed = true;
+      setTimeout(() => elevenLabsFailed = false, 60000); // نعيد المحاولة بعد دقيقة
     }
-  } catch (e) {
-    alert('فشل الاتصال: ' + e.message);
   }
+
+  // البديل: Web Speech API
+  fallbackSpeak(text);
 }
 
 function fallbackSpeak(text) {

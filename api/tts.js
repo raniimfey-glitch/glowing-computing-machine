@@ -1,11 +1,4 @@
 export default async function handler(req, res) {
-  // تشخيص مؤقت
-  if (req.method === 'GET') {
-    return res.status(200).json({ 
-      hasKey: !!process.env.ELEVENLABS_API_KEY,
-      keyStart: process.env.ELEVENLABS_API_KEY?.slice(0,8) || 'غير موجود'
-    });
-  }
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -27,10 +20,7 @@ export default async function handler(req, res) {
         body: JSON.stringify({
           text,
           model_id: 'eleven_multilingual_v2',
-          voice_settings: {
-            stability: 0.5,
-            similarity_boost: 0.75,
-          },
+          voice_settings: { stability: 0.5, similarity_boost: 0.75 },
         }),
       }
     );

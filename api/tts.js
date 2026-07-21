@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   const { text } = req.body;
   if (!text) return res.status(400).json({ error: 'النص مطلوب' });
 
-  const VOICE_ID = 'XdoLPWNt7ytn6BtU4FBf';
+  const VOICE_ID = 'cgSgspJ2msm6clMCkdW9';
 
   try {
     const response = await fetch(
